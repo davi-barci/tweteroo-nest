@@ -3,6 +3,8 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Query,
@@ -15,7 +17,8 @@ import { CreatTweetDto } from './dtos/tweet.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('/health')
+  @Get()
+  @HttpCode(200)
   getHealth(): string {
     return this.appService.getHealth();
   }
@@ -27,7 +30,7 @@ export class AppController {
   }
 
   @Post('/tweets')
-  @HttpCode(200)
+  @HttpCode(201)
   createTweet(@Body() body: CreatTweetDto) {
     return this.appService.createTweet(body);
   }
@@ -36,9 +39,7 @@ export class AppController {
   @HttpCode(200)
   getTweets(@Query('page') page?: number) {
     if (page && (isNaN(page) || page < 1)) {
-      return {
-        message: 'Informe uma página válida!',
-      };
+      throw new HttpException('Param is wrong!', HttpStatus.BAD_REQUEST);
     }
 
     const tweetsPerPage = 15;

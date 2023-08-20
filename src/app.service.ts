@@ -15,7 +15,7 @@ export class AppService {
   }
 
   getHealth(): string {
-    return "I'm OK!";
+    return "I'm okay!";
   }
 
   signUp(body: CreateUserDto) {

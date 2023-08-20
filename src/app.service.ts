@@ -31,4 +31,20 @@ export class AppService {
     const tweet = new Tweet(body.username, body.tweet);
     return this.tweets.push(tweet);
   }
+
+  getUserAvatarByUsername(username: string) {
+    const user = this.users.find((user) => user.username === username);
+    return user ? user.avatar : null;
+  }
+
+  getPaginatedTweets(startIndex: number, endIndex: number) {
+    const reversedTweets = [...this.tweets].reverse();
+    const paginatedTweets = reversedTweets.slice(startIndex, endIndex);
+
+    return paginatedTweets.map((tweet) => ({
+      username: tweet.username,
+      avatar: this.getUserAvatarByUsername(tweet.username),
+      tweet: tweet.tweet,
+    }));
+  }
 }

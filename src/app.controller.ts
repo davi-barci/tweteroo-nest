@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDto } from './dtos/user.dto';
 import { CreatTweetDto } from './dtos/tweet.dto';
@@ -43,5 +51,12 @@ export class AppController {
     );
 
     return paginatedTweets;
+  }
+
+  @Get('/tweets/:username')
+  @HttpCode(200)
+  getUserTweets(@Param('username') username: string) {
+    const tweets = this.appService.getUserTweets(username);
+    return tweets;
   }
 }

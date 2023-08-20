@@ -47,4 +47,16 @@ export class AppService {
       tweet: tweet.tweet,
     }));
   }
+
+  getUserTweets(username: string) {
+    const userTweets = this.tweets
+      .filter((tweet) => tweet.username === username)
+      .map((tweet) => ({
+        username: tweet.username,
+        avatar: this.getUserAvatarByUsername(tweet.username),
+        tweet: tweet.tweet,
+      }));
+
+    return userTweets;
+  }
 }
